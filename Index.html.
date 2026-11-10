@@ -1,0 +1,119 @@
+<script>
+function showPage(pageId, btnId) {
+
+    // Hide all pages
+    document.querySelectorAll('.page').forEach(page => {
+        page.classList.remove('active');
+    });
+
+    // Show selected page
+    const target = document.getElementById(pageId);
+
+    if (target) {
+        target.classList.add('active');
+    }
+
+    // Update top navigation
+    document.querySelectorAll('.nav-btn').forEach(button => {
+        button.classList.remove('active');
+    });
+
+    if (btnId) {
+        const topButton = document.getElementById(btnId);
+
+        if (topButton) {
+            topButton.classList.add('active');
+        }
+    }
+
+    // Update bottom navigation
+    document.querySelectorAll('.bottom-nav button').forEach(button => {
+        button.classList.remove('active');
+    });
+
+    const bottomMap = {
+        'home': 'b-home',
+        'edu': 'b-edu',
+        'products': 'b-products',
+        'about': 'b-about',
+        'contact': 'b-contact'
+    };
+
+    const bottomButton = document.getElementById(bottomMap[pageId]);
+
+    if (bottomButton) {
+        bottomButton.classList.add('active');
+    }
+
+    // Scroll to top
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+}
+
+
+// Submit Environmental Pledge
+function submitPledge() {
+
+    const nameInput = document.getElementById('pName');
+    const emailInput = document.getElementById('pEmail');
+    const messageInput = document.getElementById('pMessage');
+
+    const name = nameInput.value.trim();
+    const email = emailInput.value.trim();
+    const message = messageInput.value.trim();
+
+    if (name === '') {
+        alert('Please enter your full name.');
+        nameInput.focus();
+        return;
+    }
+
+    if (email !== '' && !emailInput.checkValidity()) {
+        alert('Please enter a valid email address.');
+        emailInput.focus();
+        return;
+    }
+
+    const pledgeList = document.getElementById('pledgeList');
+
+    // Create pledge card
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.style.borderLeft = '4px solid #1e3a2a';
+
+    const userName = document.createElement('b');
+    userName.textContent = name;
+
+    const userEmail = document.createElement('small');
+    userEmail.style.color = '#888';
+    userEmail.textContent = ' - ' + (email || 'San Remigio');
+
+    const pledgeMessage = document.createElement('p');
+    pledgeMessage.style.fontSize = '12px';
+    pledgeMessage.style.lineHeight = '1.5';
+    pledgeMessage.style.marginTop = '8px';
+    pledgeMessage.textContent = message || 
+        'I pledge to practice the 5 R’s and reduce waste.';
+
+    const status = document.createElement('small');
+    status.style.color = 'green';
+    status.style.fontWeight = '700';
+    status.textContent = '🌿 Environmental Pledge Submitted';
+
+    card.appendChild(userName);
+    card.appendChild(userEmail);
+    card.appendChild(pledgeMessage);
+    card.appendChild(status);
+
+    pledgeList.prepend(card);
+
+    alert('Thank you, ' + name + '! Your environmental pledge has been submitted.');
+
+    // Clear form
+    nameInput.value = '';
+    emailInput.value = '';
+    messageInput.value = '';
+}
+</script>
